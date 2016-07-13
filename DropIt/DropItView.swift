@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DropItView: UIView, UIDynamicAnimatorDelegate {
+class DropItView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
     
     private lazy var animator: UIDynamicAnimator = {
         let animator = UIDynamicAnimator(referenceView: self)
@@ -40,6 +40,7 @@ class DropItView: UIView, UIDynamicAnimatorDelegate {
         super.layoutSubviews()
         let path = UIBezierPath(ovalInRect: CGRect(center: bounds.mid, size: dropSize))
         dropBehavior.addBarrier(path, named: PathNames.MiddleBarrier)
+        bezierPaths[PathNames.MiddleBarrier] = path
     }
     
     private let dropsPerRow = 10
