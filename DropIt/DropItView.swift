@@ -36,17 +36,25 @@ class DropItView: NamedBezierPathsView, UIDynamicAnimatorDelegate {
         willSet {
             if attachment != nil {
                 animator.removeBehavior(attachment!)
+                bezierPaths[PathNames.Attachment] = nil
             }
         }
         didSet {
             if attachment != nil {
                 animator.addBehavior(attachment!)
+                attachment!.action = { [unowned self] in
+                    if let attachedDrop = self.attachment!.items.first as? UIView {
+                        self.bezierPaths[PathNames.Attachment] =
+                            UIBezierPath.lineFrom(self.attachment!.anchorPoint, to: attachedDrop.center)
+                    }
+                }
             }
         }
     }
     
     private struct PathNames {
         static let MiddleBarrier = "Middle Barrier"
+        static let Attachment = "Attachment"
     }
     
     override func layoutSubviews() {
