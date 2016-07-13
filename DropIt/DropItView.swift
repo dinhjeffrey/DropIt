@@ -32,6 +32,16 @@ class DropItView: UIView, UIDynamicAnimatorDelegate {
         }
     }
     
+    private struct PathNames {
+        static let MiddleBarrier = "Middle Barrier"
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let path = UIBezierPath(ovalInRect: CGRect(center: bounds.mid, size: dropSize))
+        dropBehavior.addBarrier(path, named: PathNames.MiddleBarrier)
+    }
+    
     private let dropsPerRow = 10
     
     private var dropSize: CGSize {
